@@ -1,5 +1,4 @@
 @extends('layouts.master')
-
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -19,38 +18,53 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-12">
-
-              
+          <div class="col-lg-12">              
           
             <!-- /.card -->
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">DataTable with default features</h3>
+                <h3 class="card-title">All DISHES</h3>
+                <a href="{{url("/dish/create")}}" class="btn btn-success" style="float:right">Create</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+              @if (session('message'))
+                  <div class="alert alert-success">
+                      {{ session('message') }}
+                  </div>
+              @endif
+                <table id="dishes" class="table table-bordered table-striped">
                   <thead>
-                  <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Rendering engine</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Browser</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Platform(s)</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Engine version</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">CSS grade</th></tr>
+                    
+                    <tr>
+                        <th>Dish Name</th>
+                        <th>Category Name</th>
+                        <th>Created Date</th>                        
+                        <th>Remark</th>                        
+                    </tr>
                   </thead>
                   <tbody>
+                    @foreach($dishes as $dish)
+                      <tr>
+                        <td>{{$dish->name}}</td>
+                        <td>{{$dish->category->name}}</td>
+                        <td>{{$dish->created_at}}</td>
+                        <td>
+                          <div class="form-row">
+                            <a href="{{url("/dish/$dish->id/edit")}}" style="height:40; margin:5px" class="btn btn-warning">Edit</a>
+                            <form action="{{url("/dish/$dish->id")}}" style="height:40; margin:5px" method="POST" onclick="return confirm('Are u sure to DELETE');">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" class="btn btn-danger" value="Delete">
+                            </form>
+                          </div>
+
+                        </td>
+                      </tr>
+                    @endforeach
                   
-                  
-                <tr class="even">
-                    <td class="dtr-control sorting_1" tabindex="0">Gecko</td>
-                    <td>Firefox 3.0</td>
-                    <td>Win 2k+ / OSX.3+</td>
-                    <td>1.9</td>
-                    <td>A</td>
-                  </tr><tr class="odd">
-                    <td class="sorting_1 dtr-control">Gecko</td>
-                    <td>Netscape 7.2</td>
-                    <td>Win 95+ / Mac OS 8.6-9.2</td>
-                    <td>1.7</td>
-                    <td>A</td>
-                  </tr></tbody>
+                  </tbody>
                   
                 </table>
             
@@ -61,29 +75,22 @@
           </div>
           <!-- /.col -->
         </div>
-        
-
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
+</div> 
 </div>
 @endsection
+<!-- jquery cdn -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
 <script>
-  $(function () {
-    // $("#example1").DataTable({
-    //   "responsive": true, "lengthChange": false, "autoWidth": false,
-    //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
+  $(function () {    
+    $('#dishes').DataTable({
       "paging": true,
-      "lengthChange": false,
-      "searching": false,
+      "lengthChange": false,  
+      "searchin":false,  
       "ordering": true,
       "info": true,
-      "autoWidth": false,
       "responsive": true,
     });
   });
