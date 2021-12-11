@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DishesController;
 
 /*
@@ -14,12 +15,17 @@ use App\Http\Controllers\DishesController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[App\Http\Controllers\OrderController::class, 'index'])->name('order.form');
+Route::post('/order_submit', [App\Http\Controllers\OrderController::class, 'submit'])->name('order.submit');
 
-Route::get('/home', [App\Http\Controllers\OrderController::class, 'index'])->name('home');
 Route::resource('/dish', App\Http\Controllers\DishesController::class);
+Route::get('/order',[App\Http\Controllers\DishesController::class,'order'])->name('kitchen.order');
+Route::get('/order/{order}/approved',[App\Http\Controllers\DishesController::class,'approved']);
+Route::get('/order/{order}/cancel',[App\Http\Controllers\DishesController::class,'cancel']);
+Route::get('/order/{order}/ready',[App\Http\Controllers\DishesController::class,'ready']);
+
+Route::get('/order/{order}/serve',[App\Http\Controllers\OrderController::class,'serve']);
+
 Auth::routes([
     'register'=> false,
     'reset'=>false,

@@ -57,13 +57,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="home" class="nav-link">
+                <a href="{{route('kitchen.order')}}" class="nav-link {{Request::segment(1)=='order' ? 'active': ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orders</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="dish" class="nav-link">
+                <a href="dish" class="nav-link {{Request::segment(1)=='dish' ?'active': ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dishes</p>
                 </a>
@@ -81,13 +81,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @yield('content')
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
+   <!-- <aside class="control-sidebar control-sidebar-dark">
+    Control sidebar content goes here
     <div class="p-3">
       <h5>Title</h5>
       <p>Sidebar content</p>
     </div>
-  </aside>
+  </aside> -->
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->

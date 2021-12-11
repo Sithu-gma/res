@@ -88,7 +88,6 @@
     $('#dishes').DataTable({
       "paging": true,
       "lengthChange": false,  
-      "searchin":false,  
       "ordering": true,
       "info": true,
       "responsive": true,
